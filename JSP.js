@@ -3,7 +3,7 @@ const video = document.getElementById("localvideo");
 if (!video) {
     console.error("L'élément vidéo avec l'ID 'localvideo' est introuvable.");
 } else if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ video: true })
+    navigator.mediaDevices.getUserMedia({ video: {facingMode: {exact: "environment"}} })
         .then(function(stream) {
             video.srcObject = stream;
             video.play(); // Assurez-vous que la vidéo démarre
