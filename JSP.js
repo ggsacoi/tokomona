@@ -18,7 +18,7 @@ if (!video) {
 
             // Créer une piste vidéo pour la caméra arrière
             const [videoTrack] = await AgoraRTC.createCameraVideoTrack({
-                facingMode: "environment",
+                facingMode: "environment", encoderConfig: "360p",
             }).catch((error) => {
                 console.error("Erreur lors de la création de la piste vidéo :", error);
                 return null;
@@ -41,6 +41,7 @@ if (!video) {
             console.log("Flux vidéo publié avec succès !");
         } catch (error) {
             console.error("Erreur lors de la configuration Agora :", error);
+            alert("Problème de connexion. Veuillez vérifier votre réseau et réessayer.");
         }
 
         // Gestion des événements
@@ -53,7 +54,10 @@ if (!video) {
         });
     }
 
-    startAgora();
+    startButton.addEventListener("click", () => {
+        console.log("Bouton cliqué, démarrage de la vidéo...");
+        startAgora();
+    });
 } else {
     console.error("L'API getUserMedia n'est pas prise en charge par ce navigateur.");
 }
