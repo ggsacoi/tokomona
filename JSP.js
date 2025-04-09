@@ -1,13 +1,13 @@
 const APP_ID = '98a84bad74bb4de0b0728bf1730007ab';
 const CHANNEL_NAME = 'test';
-const TOKEN = '007eJxTYHhydNa98NxbzS33tdf7NazbxPPk8axZ5bflQ2/OqTTq+vJZgcHSItHCJCkxxdwkKckkJdUgycDcyCIpzdDc2MDAwDwxqVb2W3pDICOD3f8LjIwMEAjiszCUpBaXMDAAAIEiI54='
-   
+const TOKEN = '007eJxTYHhydNa98NxbzS33tdf7NazbxPPk8axZ5bflQ2/OqTTq+vJZgcHSItHCJCkxxdwkKckkJdUgycDcyCIpzdDc2MDAwDwxqVb2W3pDICOD3f8LjIwMEAjiszCUpBaXMDAAAIEiI54=';
+
 let video = document.getElementById("localvideo");
 
 if (!video) {
     console.error("L'élément vidéo avec l'ID 'localvideo' est introuvable.");
 } else if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8", disableStats: true});
+    const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8", disableStats: true });
 
     async function startAgora() {
         try {
@@ -23,14 +23,14 @@ if (!video) {
                 console.error("Erreur lors de la création de la piste vidéo :", error);
                 return null;
             });
-    
+
             if (!videoTrack) {
                 console.error("Impossible de créer une piste vidéo. Vérifiez les permissions de la caméra.");
                 return;
             }
 
             // Afficher le flux vidéo local
-            video.srcObject = videoTrack.getMediaStreamTrack().stream;
+            video.srcObject = videoTrack.getMediaStream();
             video.play();
 
             console.log("Tentative de publication du flux...");
@@ -39,15 +39,16 @@ if (!video) {
         } catch (error) {
             console.error("Erreur lors de la configuration Agora :", error);
         }
-    
+
         client.on("stream-removed", (evt) => {
             console.log("Flux supprimé :", evt.uid);
         });
-    
+
         client.on("user-unpublished", (user, mediaType) => {
             console.log("Utilisateur non publié :", user.uid, "Type :", mediaType);
         });
     }
+
     startAgora();
 } else {
     console.error("L'API getUserMedia n'est pas prise en charge par ce navigateur.");
