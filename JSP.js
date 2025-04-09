@@ -7,7 +7,7 @@ let video = document.getElementById("localvideo");
 if (!video) {
     console.error("L'élément vidéo avec l'ID 'localvideo' est introuvable.");
 } else if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+    const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8", disableStats: true});
 
     async function startAgora() {
         try {
