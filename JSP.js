@@ -7,7 +7,10 @@ let video = document.getElementById("localvideo");
 if (!video) {
     console.error("L'élément vidéo avec l'ID 'localvideo' est introuvable.");
 } else if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8", disableStats: true });
+    const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8", disableStats: true, iceServers: [
+        { urls: "stun:stun.l.google.com:19302" }, // Serveur STUN public
+        { urls: "turn:turn.agora.io:3478", username: "username", credential: "password" } // Exemple de serveur TURN
+    ], });
 
     async function startAgora() {
         try {
