@@ -7,10 +7,7 @@ let video = document.getElementById("localvideo");
 if (!video) {
     console.error("L'élément vidéo avec l'ID 'localvideo' est introuvable.");
 } else if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8", disableStats: true, iceServers: [
-        { urls: "stun:stun.l.google.com:19302" }, // Serveur STUN public
-        { urls: "turn:turn.agora.io:3478", username: "username", credential: "password" } // Exemple de serveur TURN
-    ], });
+    const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8", disableStats: true });
 
     async function startAgora() {
         try {
@@ -32,10 +29,13 @@ if (!video) {
                 return;
             }
 
-            // Afficher le flux vidéo local
-            video.srcObject = videoTrack.getMediaStream();
-            video.play();
+            // Afficher le flux vidéo local dans l'élément <video>
+            console.log("Affichage du flux vidéo local...");
+            video.srcObject = videoTrack.getMediaStream(); // Associer le flux vidéo à l'élément <video>
+            await video.play(); // Démarrer la lecture du flux vidéo
+            console.log("Flux vidéo affiché avec succès !");
 
+            // Publier le flux vidéo sur Agora
             console.log("Tentative de publication du flux...");
             await client.publish([videoTrack]);
             console.log("Flux vidéo publié avec succès !");
@@ -43,6 +43,7 @@ if (!video) {
             console.error("Erreur lors de la configuration Agora :", error);
         }
 
+        // Gestion des événements
         client.on("stream-removed", (evt) => {
             console.log("Flux supprimé :", evt.uid);
         });
