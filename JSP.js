@@ -3,6 +3,7 @@ const CHANNEL_NAME = 'test';
 const TOKEN = '007eJxTYHhydNa98NxbzS33tdf7NazbxPPk8axZ5bflQ2/OqTTq+vJZgcHSItHCJCkxxdwkKckkJdUgycDcyCIpzdDc2MDAwDwxqVb2W3pDICOD3f8LjIwMEAjiszCUpBaXMDAAAIEiI54=';
 
 let video = document.getElementById("localvideo");
+let startButton = document.getElementById("envoi");
 
 if (!video) {
     console.error("L'élément vidéo avec l'ID 'localvideo' est introuvable.");
