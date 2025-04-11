@@ -12,47 +12,48 @@ if (!video) {
 
     async function startAgora() {
         try {
-            // Joindre le canal
             console.log("Tentative de rejoindre le canal...");
             await client.join(APP_ID, CHANNEL_NAME, TOKEN, null);
             console.log("Rejoint avec succès !");
-
-            // Créer une piste vidéo pour la caméra arrière
-            const [videoTrack] = await AgoraRTC.createCameraVideoTrack({
-                facingMode: "environment", encoderConfig: "360p",
-            }).catch((error) => {
-                console.error("Erreur lors de la création de la piste vidéo :", error);
-                return null;
+        } catch (error) {
+            console.error("Erreur lors de la tentative de rejoindre le canal :", error);
+            alert("Impossible de rejoindre le canal. Vérifiez votre connexion.");
+            return;
+        }
+    
+        let videoTrack;
+        try {
+            console.log("Création de la piste vidéo...");
+            videoTrack = await AgoraRTC.createCameraVideoTrack({
+                facingMode: "environment",
+                encoderConfig: "360p",
             });
-
-            if (!videoTrack) {
-                console.error("Impossible de créer une piste vidéo. Vérifiez les permissions de la caméra.");
-                return;
-            }
-
-            // Afficher le flux vidéo local dans l'élément <video>
+            console.log("Piste vidéo créée avec succès !");
+        } catch (error) {
+            console.error("Erreur lors de la création de la piste vidéo :", error);
+            alert("Impossible d'accéder à la caméra. Vérifiez les permissions.");
+            return;
+        }
+    
+        try {
             console.log("Affichage du flux vidéo local...");
-            video.srcObject = videoTrack.getMediaStream(); // Associer le flux vidéo à l'élément <video>
-            await video.play(); // Démarrer la lecture du flux vidéo
+            video.srcObject = videoTrack.getMediaStream();
+            await video.play();
             console.log("Flux vidéo affiché avec succès !");
-
-            // Publier le flux vidéo sur Agora
+        } catch (error) {
+            console.error("Erreur lors de l'affichage du flux vidéo :", error);
+            alert("Impossible d'afficher le flux vidéo.");
+            return;
+        }
+    
+        try {
             console.log("Tentative de publication du flux...");
             await client.publish([videoTrack]);
             console.log("Flux vidéo publié avec succès !");
         } catch (error) {
-            console.error("Erreur lors de la configuration Agora :", error);
-            alert("Problème de connexion. Veuillez vérifier votre réseau et réessayer.");
+            console.error("Erreur lors de la publication du flux vidéo :", error);
+            alert("Impossible de publier le flux vidéo.");
         }
-
-        // Gestion des événements
-        client.on("stream-removed", (evt) => {
-            console.log("Flux supprimé :", evt.uid);
-        });
-
-        client.on("user-unpublished", (user, mediaType) => {
-            console.log("Utilisateur non publié :", user.uid, "Type :", mediaType);
-        });
     }
 
     startButton.addEventListener("click", () => {
