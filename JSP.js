@@ -1,6 +1,6 @@
 const APP_ID = '98a84bad74bb4de0b0728bf1730007ab';
-const CHANNEL_NAME = 'name';
-const TOKEN = '007eJxTYHD6vZJtE49V7+l92zfkHj6ep5geUjHxwq/2+993+ci9UClWYLC0SLQwSUpMMTdJSjJJSTVIMjA3skhKMzQ3NjAwME9MOmL5M70hkJHBdMpqJkYGCATxWRjyEnNTGRgA88chtw==';
+const CHANNEL_NAME = 'test';
+const TOKEN = '007eJxTYDCovPZhxrTfIV75L2cW7L+2+9XB6EUSq3nfs/YyTWipsJqgwGBpkWhhkpSYYm6SlGSSkmqQZGBuZJGUZmhubGBgYJ6YJHPld3pDICPD0l5tRkYGCATxWRhKUotLGBgA+Y0hdg==';
 
 let video = document.getElementById("localvideo");
 let startButton = document.getElementById("envoi");
@@ -37,7 +37,7 @@ if (!video) {
     
         try {
             console.log("Affichage du flux vidéo local...");
-            const stream = videoTrack.getMediaStream(); // Obtenir le flux vidéo
+            const stream = new MediaStream([videoTrack]); // Obtenir le flux vidéo
             if (!stream) {
                 console.error("Le flux vidéo est invalide.");
                 alert("Impossible d'obtenir le flux vidéo.");
