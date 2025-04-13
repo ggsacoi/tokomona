@@ -37,14 +37,13 @@ if (!video) {
     
         try {
             console.log("Affichage du flux vidéo local...");
-            video.srcObject = videoTrack.getMediaStream();
-            await video.play();
+            videoTrack.play(video); // Agora s'occupe du rendu dans le <video>
             console.log("Flux vidéo affiché avec succès !");
         } catch (error) {
             console.error("Erreur lors de l'affichage du flux vidéo :", error);
             alert("Impossible d'afficher le flux vidéo.");
             return;
-        }
+        }        
     
         try {
             console.log("Tentative de publication du flux...");
