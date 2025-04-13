@@ -37,14 +37,8 @@ if (!video) {
     
         try {
             console.log("Affichage du flux vidéo local...");
-            const stream = new MediaStream([videoTrack]); // Obtenir le flux vidéo
-            if (!stream) {
-                console.error("Le flux vidéo est invalide.");
-                alert("Impossible d'obtenir le flux vidéo.");
-                return;
-            }
-            video.srcObject = stream; // Associer le flux à l'élément vidéo
-            await video.play(); // Démarrer la lecture
+            video.srcObject = videoTrack.getMediaStream();
+            await video.play();
             console.log("Flux vidéo affiché avec succès !");
         } catch (error) {
             console.error("Erreur lors de l'affichage du flux vidéo :", error);
