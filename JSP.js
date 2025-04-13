@@ -26,7 +26,7 @@ if (!video) {
             console.log("Création de la piste vidéo...");
             videoTrack = await AgoraRTC.createCameraVideoTrack({
                 facingMode: "environment",
-                encoderConfig: "360p",
+                encoderConfig: "1080p",
             });
             console.log("Piste vidéo créée avec succès !");
         } catch (error) {
